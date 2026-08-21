@@ -130,44 +130,68 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
+
+    /* =========================================
+       MOBILE MENU TOGGLE (was missing — this is
+       why the hamburger button did nothing)
+    ========================================= */
+
+    const navToggle = document.getElementById("navToggle");
+    const navLinks = document.querySelector(".nav-links");
+    const navToggleIcon = navToggle ? navToggle.querySelector("i") : null;
+
+    if (navToggle && navLinks) {
+
+        navToggle.addEventListener("click", function () {
+
+            const isOpen = navLinks.classList.toggle("active");
+
+            /* swap bars icon <-> close icon */
+            if (navToggleIcon) {
+                navToggleIcon.classList.toggle("fa-bars", !isOpen);
+                navToggleIcon.classList.toggle("fa-xmark", isOpen);
+            }
+
+        });
+
+        /* Close the menu after tapping a link */
+        navLinks.querySelectorAll("a").forEach(function (link) {
+
+            link.addEventListener("click", function () {
+                navLinks.classList.remove("active");
+
+                if (navToggleIcon) {
+                    navToggleIcon.classList.remove("fa-xmark");
+                    navToggleIcon.classList.add("fa-bars");
+                }
+
+            });
+
+        });
+
+        /* Close the menu on outside click */
+        document.addEventListener("click", function (event) {
+
+            const clickedInsideMenu = navLinks.contains(event.target);
+            const clickedToggle = navToggle.contains(event.target);
+
+            if (!clickedInsideMenu && !clickedToggle && navLinks.classList.contains("active")) {
+                navLinks.classList.remove("active");
+
+                if (navToggleIcon) {
+                    navToggleIcon.classList.remove("fa-xmark");
+                    navToggleIcon.classList.add("fa-bars");
+                }
+            }
+
+        });
+
+    }
+
 });
 
 
 // Animated counters (About section + Hero experience counter)
-const counters = document.querySelectorAll('.counter, #experience');
-
-const animateCounter = (el) => {
-    const target = +el.getAttribute('data-target');
-    const duration = 1500; // ms
-    const startTime = performance.now();
-
-    const update = (now) => {
-        const progress = Math.min((now - startTime) / duration, 1);
-        const value = Math.floor(progress * target);
-        el.textContent = value;
-
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        } else {
-            el.textContent = target; // ensure it lands exactly on target
-        }
-    };
-
-    requestAnimationFrame(update);
-};
-
-const counterObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            animateCounter(entry.target);
-            observer.unobserve(entry.target); // run once
-        }
-    });
-}, { threshold: 0.5 });
-
-counters.forEach(counter => counterObserver.observe(counter));
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const counters = document.querySelectorAll('.counter, #experience');
 
@@ -181,43 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const progress = Math.min((timestamp - startTime) / duration, 1);
             // easeOutCubic for a smoother finish instead of linear
             const eased = 1 - Math.pow(1 - progress, 3);
-            el.textContent = Math.floor(eased * target);
-
-            if (progress < 1) {
-                requestAnimationFrame(step);
-            } else {
-                el.textContent = target;
-            }
-        };
-
-        requestAnimationFrame(step);
-    };
-
-    const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateCounter(entry.target);
-                obs.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.6 });
-
-    counters.forEach(counter => observer.observe(counter));
-});
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const counters = document.querySelectorAll('.counter, #experience');
-
-    const animateCounter = (el) => {
-        const target = +el.getAttribute('data-target');
-        const duration = 1800;
-        let startTime = null;
-
-        const step = (timestamp) => {
-            if (!startTime) startTime = timestamp;
-            const progress = Math.min((timestamp - startTime) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
             el.textContent = Math.floor(eased * target);
 
             if (progress < 1) {
