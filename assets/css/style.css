@@ -574,9 +574,10 @@ textarea:focus-visible {
 =========================== */
 
 .orbit-wrap {
+    --r: 160px; /* distance from center to each icon's center */
     position: relative;
-    width: 340px;
-    height: 340px;
+    width: 400px;
+    height: 400px;
     opacity: 0;
     animation: fadeUp .9s var(--ease) .3s forwards;
 }
@@ -593,14 +594,14 @@ textarea:focus-visible {
 }
 
 .orbit-track-outer {
-    width: 300px;
-    height: 300px;
+    width: 360px;
+    height: 360px;
     animation: orbitTrackSpin 60s linear infinite;
 }
 
 .orbit-track-inner {
-    width: 216px;
-    height: 216px;
+    width: 220px;
+    height: 220px;
     border-color: rgba(103,232,249,.18);
     animation: orbitTrackSpin 44s linear infinite reverse;
 }
@@ -616,8 +617,8 @@ textarea:focus-visible {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 148px;
-    height: 148px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     display: flex;
     flex-direction: column;
@@ -645,7 +646,7 @@ textarea:focus-visible {
 }
 
 .orbit-core-number {
-    font-size: 40px;
+    font-size: 44px;
     font-weight: 800;
     color: var(--primary);
     line-height: 1;
@@ -653,21 +654,24 @@ textarea:focus-visible {
 
 .orbit-core-label {
     margin-top: 8px;
-    font-size: 13px;
+    font-size: 14px;
     color: #d1d5db;
     line-height: 1.35;
     text-align: center;
 }
 
 /* Floating tech-icon badges, each parked at a fixed point on the
-   orbit ring (via --x/--y) and bobbing gently at its own pace so
-   they never fall into obvious lock-step */
+   orbit ring (via --x/--y, derived from --r so wrap/track/icon
+   sizing and icon position always stay in sync — no more hand-typed
+   pixel pairs going out of sync with the box size on each
+   breakpoint) and bobbing gently at its own pace so they never fall
+   into obvious lock-step */
 .orbit-icon {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 54px;
-    height: 54px;
+    width: 58px;
+    height: 58px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -683,7 +687,7 @@ textarea:focus-visible {
 }
 
     .orbit-icon i {
-        font-size: 22px;
+        font-size: 24px;
         color: var(--primary-light);
     }
 
@@ -693,12 +697,16 @@ textarea:focus-visible {
         z-index: 4;
     }
 
-.orbit-icon-1 { --x: 0px;    --y: -142px; }
-.orbit-icon-2 { --x: 123px;  --y: -71px;  }
-.orbit-icon-3 { --x: 123px;  --y: 71px;   }
-.orbit-icon-4 { --x: 0px;    --y: 142px;  }
-.orbit-icon-5 { --x: -123px; --y: 71px;   }
-.orbit-icon-6 { --x: -123px; --y: -71px;  }
+/* Hexagon layout around the hub — each icon's --x/--y is calculated
+   from the single --r variable set on .orbit-wrap, so resizing the
+   whole widget for a breakpoint only ever means changing --r (plus
+   the box/track/icon sizes) in ONE place. */
+.orbit-icon-1 { --x: 0px;                      --y: calc(var(--r) * -1);   }
+.orbit-icon-2 { --x: calc(var(--r) * 0.866);   --y: calc(var(--r) * -0.5); }
+.orbit-icon-3 { --x: calc(var(--r) * 0.866);   --y: calc(var(--r) * 0.5);  }
+.orbit-icon-4 { --x: 0px;                      --y: var(--r);              }
+.orbit-icon-5 { --x: calc(var(--r) * -0.866);  --y: calc(var(--r) * 0.5);  }
+.orbit-icon-6 { --x: calc(var(--r) * -0.866);  --y: calc(var(--r) * -0.5); }
 
 .orbit-icon-1 { animation-delay: 0s; }
 .orbit-icon-2 { animation-delay: .5s; }
@@ -1661,34 +1669,26 @@ textarea:focus-visible {
     }
 }
 
-/* Hero orbit — tablet size. Note: box size AND icon offsets are
-   scaled together here (not via transform:scale, which was silently
-   discarded by the widget's own load-in animation and left icons
-   positioned using desktop-sized offsets inside a smaller box —
-   that's what was pushing them outside the widget and into the
-   buttons above it on phones). */
+/* Hero orbit — tablet size. Only --r plus the box/track/core/icon
+   sizes change here; the six icon positions recompute automatically
+   from --r via the formulas defined on .orbit-icon-1..6 above, so
+   there's no separate x/y math to keep in sync at each breakpoint. */
 @media (max-width: 991px) {
     .orbit-wrap {
-        width: 280px;
-        height: 280px;
+        --r: 128px;
+        width: 330px;
+        height: 330px;
     }
 
-    .orbit-track-outer { width: 246px; height: 246px; }
-    .orbit-track-inner { width: 177px; height: 177px; }
+    .orbit-track-outer { width: 288px; height: 288px; }
+    .orbit-track-inner { width: 176px; height: 176px; }
 
-    .orbit-core { width: 121px; height: 121px; }
-    .orbit-core-number { font-size: 33px; }
+    .orbit-core { width: 128px; height: 128px; }
+    .orbit-core-number { font-size: 35px; }
     .orbit-core-label { font-size: 11px; }
 
-    .orbit-icon { width: 44px; height: 44px; }
-    .orbit-icon i { font-size: 18px; }
-
-    .orbit-icon-1 { --x: 0px;    --y: -116px; }
-    .orbit-icon-2 { --x: 101px;  --y: -58px;  }
-    .orbit-icon-3 { --x: 101px;  --y: 58px;   }
-    .orbit-icon-4 { --x: 0px;    --y: 116px;  }
-    .orbit-icon-5 { --x: -101px; --y: 58px;   }
-    .orbit-icon-6 { --x: -101px; --y: -58px;  }
+    .orbit-icon { width: 46px; height: 46px; }
+    .orbit-icon i { font-size: 19px; }
 }
 
 /* =========================================
@@ -1792,13 +1792,14 @@ textarea:focus-visible {
     }
 
     .orbit-wrap {
-        width: 240px;
-        height: 240px;
-        margin: 24px auto 0;
+        --r: 104px;
+        width: 270px;
+        height: 270px;
+        margin: 20px auto 0;
     }
 
-    .orbit-track-outer { width: 210px; height: 210px; }
-    .orbit-track-inner { width: 151px; height: 151px; }
+    .orbit-track-outer { width: 234px; height: 234px; }
+    .orbit-track-inner { width: 143px; height: 143px; }
 
     .orbit-core {
         width: 104px;
@@ -1806,7 +1807,7 @@ textarea:focus-visible {
     }
 
     .orbit-core-number {
-        font-size: 26px;
+        font-size: 29px;
     }
 
     .orbit-core-label {
@@ -1822,19 +1823,16 @@ textarea:focus-visible {
             font-size: 16px;
         }
 
-    .orbit-icon-1 { --x: 0px;   --y: -99px; }
-    .orbit-icon-2 { --x: 86px;  --y: -50px; }
-    .orbit-icon-3 { --x: 86px;  --y: 50px;  }
-    .orbit-icon-4 { --x: 0px;   --y: 99px;  }
-    .orbit-icon-5 { --x: -86px; --y: 50px;  }
-    .orbit-icon-6 { --x: -86px; --y: -50px; }
-
     .about-right h2 {
         font-size: 34px;
     }
 
     .services-grid {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .section-tag::before {
+        display: none;
     }
 
     .section-head {
@@ -2032,17 +2030,18 @@ textarea:focus-visible {
         }
 
     .orbit-wrap {
-        width: 190px;
-        height: 190px;
-        margin: 20px auto 0;
+        --r: 80px;
+        width: 210px;
+        height: 210px;
+        margin: 18px auto 0;
     }
 
-    .orbit-track-outer { width: 166px; height: 166px; }
-    .orbit-track-inner { width: 119px; height: 119px; }
+    .orbit-track-outer { width: 180px; height: 180px; }
+    .orbit-track-inner { width: 110px; height: 110px; }
 
     .orbit-core {
-        width: 90px;
-        height: 90px;
+        width: 80px;
+        height: 80px;
     }
 
     .orbit-core-number {
@@ -2054,20 +2053,13 @@ textarea:focus-visible {
     }
 
     .orbit-icon {
-        width: 32px;
-        height: 32px;
+        width: 30px;
+        height: 30px;
     }
 
         .orbit-icon i {
-            font-size: 14px;
+            font-size: 13px;
         }
-
-    .orbit-icon-1 { --x: 0px;   --y: -78px; }
-    .orbit-icon-2 { --x: 68px;  --y: -39px; }
-    .orbit-icon-3 { --x: 68px;  --y: 39px;  }
-    .orbit-icon-4 { --x: 0px;   --y: 78px;  }
-    .orbit-icon-5 { --x: -68px; --y: 39px;  }
-    .orbit-icon-6 { --x: -68px; --y: -39px; }
 
     .navbar {
         padding: 0 16px;
