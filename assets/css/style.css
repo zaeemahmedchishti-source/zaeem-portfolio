@@ -1757,6 +1757,25 @@ textarea:focus-visible {
 
 @media (max-width: 768px) {
 
+    /* Guaranteed 24px side gutter for every section wrapper on
+       mobile — a fixed pixel value instead of only relying on
+       percentage width, so no heading (Get In Touch, section tags,
+       etc.) can ever end up flush against the screen edge again.
+       :not(.navbar) because the navbar also carries the .container
+       class but already has its own dedicated mobile padding. */
+    .container:not(.navbar),
+    .skills-container,
+    .projects-container,
+    .footer-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 24px;
+    }
+
+    .contact-container {
+        max-width: 100%;
+    }
+
     .hero {
         padding-top: 140px;
     }
@@ -1925,6 +1944,14 @@ textarea:focus-visible {
 }
 
 @media (max-width: 480px) {
+
+    .container:not(.navbar),
+    .skills-container,
+    .projects-container,
+    .footer-container,
+    .contact-container {
+        padding: 0 18px;
+    }
 
     .hero h1 {
         font-size: 36px;
