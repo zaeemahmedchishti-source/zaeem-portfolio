@@ -693,6 +693,13 @@ textarea:focus-visible {
         z-index: 4;
     }
 
+.orbit-icon-1 { --x: 0px;    --y: -142px; }
+.orbit-icon-2 { --x: 123px;  --y: -71px;  }
+.orbit-icon-3 { --x: 123px;  --y: 71px;   }
+.orbit-icon-4 { --x: 0px;    --y: 142px;  }
+.orbit-icon-5 { --x: -123px; --y: 71px;   }
+.orbit-icon-6 { --x: -123px; --y: -71px;  }
+
 .orbit-icon-1 { animation-delay: 0s; }
 .orbit-icon-2 { animation-delay: .5s; }
 .orbit-icon-3 { animation-delay: 1s; }
@@ -1654,6 +1661,36 @@ textarea:focus-visible {
     }
 }
 
+/* Hero orbit — tablet size. Note: box size AND icon offsets are
+   scaled together here (not via transform:scale, which was silently
+   discarded by the widget's own load-in animation and left icons
+   positioned using desktop-sized offsets inside a smaller box —
+   that's what was pushing them outside the widget and into the
+   buttons above it on phones). */
+@media (max-width: 991px) {
+    .orbit-wrap {
+        width: 280px;
+        height: 280px;
+    }
+
+    .orbit-track-outer { width: 246px; height: 246px; }
+    .orbit-track-inner { width: 177px; height: 177px; }
+
+    .orbit-core { width: 121px; height: 121px; }
+    .orbit-core-number { font-size: 33px; }
+    .orbit-core-label { font-size: 11px; }
+
+    .orbit-icon { width: 44px; height: 44px; }
+    .orbit-icon i { font-size: 18px; }
+
+    .orbit-icon-1 { --x: 0px;    --y: -116px; }
+    .orbit-icon-2 { --x: 101px;  --y: -58px;  }
+    .orbit-icon-3 { --x: 101px;  --y: 58px;   }
+    .orbit-icon-4 { --x: 0px;    --y: 116px;  }
+    .orbit-icon-5 { --x: -101px; --y: 58px;   }
+    .orbit-icon-6 { --x: -101px; --y: -58px;  }
+}
+
 /* =========================================
    RESPONSIVE — MOBILE NAV
 ========================================= */
@@ -1757,26 +1794,40 @@ textarea:focus-visible {
     .orbit-wrap {
         width: 240px;
         height: 240px;
-        transform: scale(.8);
-        margin: 0 auto;
+        margin: 24px auto 0;
+    }
+
+    .orbit-track-outer { width: 210px; height: 210px; }
+    .orbit-track-inner { width: 151px; height: 151px; }
+
+    .orbit-core {
+        width: 104px;
+        height: 104px;
     }
 
     .orbit-core-number {
-        font-size: 32px;
+        font-size: 26px;
     }
 
     .orbit-core-label {
-        font-size: 11px;
+        font-size: 10px;
     }
 
     .orbit-icon {
-        width: 46px;
-        height: 46px;
+        width: 38px;
+        height: 38px;
     }
 
         .orbit-icon i {
-            font-size: 18px;
+            font-size: 16px;
         }
+
+    .orbit-icon-1 { --x: 0px;   --y: -99px; }
+    .orbit-icon-2 { --x: 86px;  --y: -50px; }
+    .orbit-icon-3 { --x: 86px;  --y: 50px;  }
+    .orbit-icon-4 { --x: 0px;   --y: 99px;  }
+    .orbit-icon-5 { --x: -86px; --y: 50px;  }
+    .orbit-icon-6 { --x: -86px; --y: -50px; }
 
     .about-right h2 {
         font-size: 34px;
@@ -1964,14 +2015,6 @@ textarea:focus-visible {
 
 /* ===== EXTRA RESPONSIVE POLISH — ALL DEVICES ===== */
 
-@media (max-width: 991px) {
-    .orbit-wrap {
-        width: 280px;
-        height: 280px;
-        transform: scale(.85);
-    }
-}
-
 @media (max-width: 480px) {
     .about-info {
         grid-template-columns: 1fr;
@@ -1989,19 +2032,42 @@ textarea:focus-visible {
         }
 
     .orbit-wrap {
-        width: 210px;
-        height: 210px;
-        transform: scale(.72);
+        width: 190px;
+        height: 190px;
+        margin: 20px auto 0;
     }
 
+    .orbit-track-outer { width: 166px; height: 166px; }
+    .orbit-track-inner { width: 119px; height: 119px; }
+
     .orbit-core {
-        width: 120px;
-        height: 120px;
+        width: 90px;
+        height: 90px;
     }
 
     .orbit-core-number {
-        font-size: 26px;
+        font-size: 22px;
     }
+
+    .orbit-core-label {
+        font-size: 9px;
+    }
+
+    .orbit-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+        .orbit-icon i {
+            font-size: 14px;
+        }
+
+    .orbit-icon-1 { --x: 0px;   --y: -78px; }
+    .orbit-icon-2 { --x: 68px;  --y: -39px; }
+    .orbit-icon-3 { --x: 68px;  --y: 39px;  }
+    .orbit-icon-4 { --x: 0px;   --y: 78px;  }
+    .orbit-icon-5 { --x: -68px; --y: 39px;  }
+    .orbit-icon-6 { --x: -68px; --y: -39px; }
 
     .navbar {
         padding: 0 16px;
