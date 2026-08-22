@@ -628,7 +628,20 @@ textarea:focus-visible {
     backdrop-filter: blur(10px);
     box-shadow: 0 0 20px rgba(6,182,212,.3), 0 0 70px rgba(6,182,212,.18), inset 0 0 25px rgba(6,182,212,.12);
     z-index: 3;
-    animation: float 4s ease-in-out 1.2s infinite;
+    animation: coreFloat 4s ease-in-out 1.2s infinite;
+}
+
+/* Keeps the centering translate(-50%, -50%) intact while bobbing —
+   reusing the plain .float keyframe here overwrote that centering
+   transform entirely, which is what knocked the hub off-center */
+@keyframes coreFloat {
+    0%, 100% {
+        transform: translate(-50%, -50%);
+    }
+
+    50% {
+        transform: translate(-50%, calc(-50% - 10px));
+    }
 }
 
 .orbit-core-number {
@@ -704,6 +717,10 @@ textarea:focus-visible {
     .hero-aurora,
     .hero-spark {
         animation: none !important;
+    }
+
+    .orbit-core {
+        transform: translate(-50%, -50%) !important;
     }
 }
 
